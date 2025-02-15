@@ -16,8 +16,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Online its working good" });
 });
 
-// Routes
+import medicineRoutes from "./routes/medicine.route.js";
 
+// Routes
+app.use("/api/v1/medicines", medicineRoutes);
 
 // 404 middleware for unknown routes
 
