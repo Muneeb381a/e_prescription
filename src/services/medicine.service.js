@@ -8,4 +8,10 @@ const getAllMedicines = async() => {
     return rows;
 }
 
-export { getAllMedicines };
+const getMedicineById = async(id) => {
+    const query = "SELECT * FROM medicine WHERE id = $1";
+    const { rows } = await client.query(query, [id])
+    return rows[0];
+}
+
+export { getAllMedicines, getMedicineById };

@@ -1,6 +1,6 @@
 import { ApiError } from "../utils/ApiError.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
-import { getAllMedicines } from "../services/medicine.service.js";
+import { getAllMedicines, getMedicineById } from "../services/medicine.service.js";
 
 const getMedicines = async (req, res) => {
     try {
@@ -12,5 +12,25 @@ const getMedicines = async (req, res) => {
     } catch (error) {
         next(new ApiError(500, error.message));
     }
-}
-export { getMedicines };
+};
+
+const getMedicineByID = async(req, res, next) => {
+
+    try {
+        const { id } = req.params;
+
+        if (!id || isNaN(id)) {
+            return next(new ApiError(400, "Invalid medicine ID"));
+        }
+       const medicine = await getMedicineById(id);
+        if (!medicine) {
+            return res.status(404).json(new ApiResponse(404, "Medicine not found", medicine));
+        }
+
+        res.status(200).json(new ApiResponse(200, "Medicine fetched successfully", medicine));
+        
+    } catch (error) {
+        next(new ApiError(500, "Internal Server Error"));
+    }
+};
+export { getMedicines, getMedicineByID };
