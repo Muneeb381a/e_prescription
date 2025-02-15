@@ -11,7 +11,7 @@ let client;
 const connectDB = async () => {
     try {
         client = new Client({
-            connectionString: process.env.DATABSE_URL,
+            connectionString: process.env.DATABASE_URL,
             ssl: {
                 rejectUnauthorized: false // this is required for Neon DB database
             }
