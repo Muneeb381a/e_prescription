@@ -1,6 +1,6 @@
 import { ApiError } from "../utils/ApiError.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
-import { getAllMedicines, getMedicineById } from "../services/medicine.service.js";
+import { createMedicine, getAllMedicines, getMedicineById } from "../services/medicine.service.js";
 
 const getMedicines = async (req, res) => {
     try {
@@ -33,4 +33,13 @@ const getMedicineByID = async(req, res, next) => {
         next(new ApiError(500, "Internal Server Error"));
     }
 };
-export { getMedicines, getMedicineByID };
+
+const createmedicine = async(req, res, next) => {
+    try {
+        const newMedicine = await createMedicine(req.body);
+        res.status(201).json(new ApiResponse(201, "Medicine created successfully", newMedicine));
+    } catch (error) {
+        next(error);
+    }
+}
+export { getMedicines, getMedicineByID, createmedicine };
